@@ -1,0 +1,631 @@
+{
+	"info": {
+		"_postman_id": "9169b9da-dd2b-4424-8d63-acef53606c13",
+		"name": "Exercício Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21694405"
+	},
+	"item": [
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Buscando Produtos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validando a lista de produtos\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"produtos\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/produtos",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionando Produto sem Autorização",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"pm.test(\"Validando a mensagem de erro\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Videogame\",\r\n  \"preco\": 1600,\r\n  \"descricao\": \"Playstation 20\",\r\n  \"quantidade\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/produtos",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionando Produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Validando a inserção de um novo produto\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Videogame\",\r\n  \"preco\": 1600,\r\n  \"descricao\": \"Playstation 20\",\r\n  \"quantidade\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/produtos",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletando um Produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Validando a exclusão de um produto\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}/produtos/qNR6epUcBmJtZ8fl",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos",
+								"qNR6epUcBmJtZ8fl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletando um Produto sem Autorização",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"pm.test(\"Validando a exclusão de um produto\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Token de acesso ausente, inválido, expirado ou usuário do token não existe mais\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/produtos/qNR6epUcBmJtZ8fl",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos",
+								"qNR6epUcBmJtZ8fl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editando um Produto sem Alterar nada",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validando o erro de edição\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Já existe produto com esse nome\");\r",
+									"});\r",
+									"pm.test(\"Status code é 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Logitech MX Vertical\",\r\n  \"preco\": 470,\r\n  \"descricao\": \"Mouse\",\r\n  \"quantidade\": 381\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/produtos/fbp2aRwneCJGnTAa",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos",
+								"fbp2aRwneCJGnTAa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editando um Produto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validando a mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");\r",
+									"});\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Logitech MX Vertical v1\",\r\n  \"preco\": 400,\r\n  \"descricao\": \"Rato\",\r\n  \"quantidade\": 400\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/produtos/fbp2aRwneCJGnTAa",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"produtos",
+								"fbp2aRwneCJGnTAa"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login e Usuários",
+			"item": [
+				{
+					"name": "Fazendo Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set(\"token\", resposta.authorization);\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validando a mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Login realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"joao@gomes.com\",\r\n  \"password\": \"teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/login",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fazendo Login inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"pm.test(\"Validando a mensagem de usuário inválido\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Email e/ou senha inválidos\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"aluno@ebac.com\",\r\n  \"password\": \"teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/login",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listando Usuários",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/usuarios",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrando Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validando a mensangem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"João Gomes\",\r\n    \"email\": \"joao@gomes.com\",\r\n    \"password\": \"teste\",\r\n    \"administrador\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/usuarios",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletando um Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validando a mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/usuarios/0dfJuIadgNJrOwVS",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"usuarios",
+								"0dfJuIadgNJrOwVS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editando cadastro [erro]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Validando as mensagens de erro\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"é obrigatório\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"Fulano da Silva Sauro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/usuarios/JIVccNXwuwgyaeKD",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"usuarios",
+								"JIVccNXwuwgyaeKD"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editando cadastro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Validando a mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Joaão Gomes \",\r\n    \"email\": \"joao@gomes.com\",\r\n    \"password\": \"teste\",\r\n    \"administrador\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/usuarios/JIVccNXwuwgyaeKD",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"usuarios",
+								"JIVccNXwuwgyaeKD"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
